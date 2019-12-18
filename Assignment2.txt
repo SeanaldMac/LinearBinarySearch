@@ -1,0 +1,212 @@
+#include<stdio.h>
+#include<stdlib.h>
+
+void array_accommodation(int *a, int size);
+void max_min(int *a, int size);
+void rec_forward(int *a, int index, int size);
+void rec_backwards(int *a, int index, int size);
+void bubble_sort(int *a, int size);
+void swap(int *x, int *y);
+void counting(int *a, int size);
+
+void linear_search(int *a, int size);
+
+//void binary_search(int *a, int size);
+
+//recursive linear search
+//recursive binary search
+
+void main()
+{
+	int *a;
+	int size;
+	int i;
+	int *p;
+	char choice = ' ';
+
+	printf("How many numbers do you want to accommodate in your array?\n");
+
+	scanf_s("%d", &size);
+
+	a = (int*)calloc(size, sizeof(int));
+
+	array_accommodation(a, size);
+
+	while (choice != 'q' && choice != 'Q')
+	{
+		printf("Enter 1 to print the array forwards non-recursively\n");
+		printf("Enter 2 to print the array forwards recursively\n");
+		printf("Enter 3 to print the array backwardsrecursively\n");
+		printf("Enter 4 for linear seach\n");
+		printf("Enter 5 for binary search\n");
+		printf("Enter 6 to bubble sort array\n");
+		printf("Enter 7 to find array's min and max values\n");
+		printf("Enter 8 for counting sort\n");
+		scanf_s("%c", &choice);
+		printf("\n");
+
+		switch (choice)
+		{
+		case '1': // print array forward non-recursicely
+			for (int i = 0; i < size; i++)
+				printf("%d\n", a[i]);
+			break;
+		case'2': // print array forward recursively
+			rec_forward(a, 0, size);
+			break;
+		case'3': // print array backwards recursively
+			rec_backwards(a, size - 1, size);
+			break;
+		case'4': // linear search
+			linear_search(a, size);
+			break;
+		case'5': // binary search
+			bubble_sort(a, size);
+			printf("Array has been sorted\n");
+			break;
+		case'6': // bubble sort
+			bubble_sort(a, size);
+			printf("Array has been sorted\n");
+			break;
+		case'7': // find array's min and max
+			max_min(a, size);
+			break;
+		case'8': // counting array, counting sort
+			counting(a, size);
+			break;
+
+		}
+
+	}
+
+}
+
+void array_accommodation(int *a, int size)
+{
+	int i;
+
+	printf("Please enter %d numbers \n", size);
+
+	for (i = 0; i < size; i++)
+		scanf_s("%d", &a[i]);
+
+
+}
+
+//find max and min and print them
+void max_min(int *a, int size)
+{
+	int max;
+	int min;
+	int i;
+	max = a[0];
+	min = a[0];
+
+	for (i = 0; i < size; i++)
+	{
+		if (a[i] > max)
+			max = a[i];
+		if (a[i] < min)
+			min = a[i];
+	}
+	printf("Max is %d and Min is %d \n", max, min);
+
+}
+
+void rec_forward(int *a, int index, int size)
+{
+
+	if (index == size - 1)
+		printf("%d \n", a[index]);
+
+	else
+	{
+		printf("%d \n", a[index]);
+		index++;
+		rec_forward(a, index, size);
+	}
+
+}
+
+void rec_backwards(int *a, int index, int size)
+{
+	if (index == 0)
+	printf("%d \n", a[index]);
+
+	else
+	{
+		printf("%d \n", a[index]);
+		index--;
+		rec_backwards(a, index, size);
+	}
+
+}
+
+
+void bubble_sort(int *a, int size)
+{
+	int i, j;
+	int temp;
+
+	for (j = 0; j < size - 1; j++)
+		for (i = 0; i < size - 1; i++)
+			if (a[i] > a[i + 1])
+			{
+				swap(&a[i], &a[i + 1]);
+
+
+			}
+}
+
+void swap(int *x, int *y)
+{
+	int temp;
+
+	temp = *x;
+	*x = *y;
+
+	*y = temp;
+
+}
+
+void counting(int *a, int size)
+{
+	int max = a[0];
+	int i;
+	int c_size;
+	int *c;
+
+	for (i = 0; i < size; i++)
+		if (a[i] > max)
+			max = a[i];
+
+	c_size = max + 1;
+
+	c = (int*)calloc(c_size, sizeof(int));
+
+	for (i = 0; i < size; i++)
+		c[a[i]]++;
+
+	//printing c
+	printf("\n Printing counting array \n");
+	for (i = 0; i < c_size; i++)
+		printf("%d \n", c[i]);
+}
+
+void linear_search(int *a, int size)
+{
+	int i, target;
+	int found = 0;
+
+	printf("What number do you want to search for \n");
+	scanf_s("%d", &target);
+
+	for (i = 0; i < size && found != 1; i++)
+		if (a[i] == target)
+			found = 1;
+
+	if (found == 1)
+		printf("Your number is found \n");
+	else
+		printf("Your number is not found \n");
+}
